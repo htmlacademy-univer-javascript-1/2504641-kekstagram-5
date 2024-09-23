@@ -6,7 +6,7 @@ function checkLength(str,number) {
 }
 
 function checkIfPalindrom(str) {
-  if (str.split('').reverse().join('').toLowerCase()==str.toLowerCase()){
+  if (str.split('').reverse().join('').toLowerCase() === str.toLowerCase()){
     return true;
   }
   return false;
