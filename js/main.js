@@ -95,4 +95,4 @@ const createPhoto = function() {
 };
 
 const photos = Array.from({length: 25}, createPhoto);
-console.log(photos);
+getRandomArrayElement(photos);//Это я просто вызвала photos, чтобы оно не было no-used (на вывод в консоль тоже ругается), результат работы-photos
