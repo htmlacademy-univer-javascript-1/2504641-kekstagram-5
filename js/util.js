@@ -18,7 +18,6 @@ function generateIdFuncCom () {
 const generateId = generateIdFuncCom();
 
 
-
 function createRandomIdFromRangeGenerator (min, max) {
   const previousValues = [];
 
