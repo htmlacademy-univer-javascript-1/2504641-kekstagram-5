@@ -25,3 +25,17 @@ checkIfPalindrom('топот'); // true
 checkIfPalindrom('ДовОд'); // true
 // Это не палиндром
 checkIfPalindrom('Кекс');// false
+
+const mins = 60;
+const getTimeInMinutes = (timeString) => {
+  const timeArray = timeString.aplit(';');
+  return +timeArray[0] * mins + +timeArray[1];
+};
+
+const isMeeting = (startWork, endWork, startMeeting, meetingDuration) => {
+  const startWorkMins = getTimeInMinutes(startWork);
+  const endWorkMins = getTimeInMinutes(endWork);
+  const startMeetingMins = getTimeInMinutes(startMeeting);
+  const meetingDurationMins = startMeetingMins + meetingDuration;
+  return startMeetingMins >= startWorkMins & meetingDurationMins <= endWorkMins;
+};
