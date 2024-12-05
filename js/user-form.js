@@ -20,7 +20,7 @@ const pristine = new Pristine(form, {
 
 const showModal = () => {
   overlay.classList.remove('hidden');
-  browserSync.classList.add('modal-open');
+  body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
@@ -37,7 +37,7 @@ const isTextFieldFocused = () => document.activeElement === hashtagField || docu
 
 const hasValidCount = (value) => normalizeTags(value).length <=
 MAX_HASHTAG_COUNT;
-const hasValidTags = (value) => normalizeTags(value).every((tag) =>  VALID_SYMBOLS.test(tag));
+const hasValidTags = (value) => normalizeTags(value).every((tag) => VALID_SYMBOLS.test(tag));
 const hasUniqueTags = (value) => {
   const lowerCaseTags = normalizeTags(value).map((tag) => tag. toLowerCase());
   return lowerCaseTags.length === new Set(lowerCaseTags).size;
