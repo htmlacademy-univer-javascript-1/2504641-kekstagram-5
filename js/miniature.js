@@ -7,9 +7,9 @@ const renderPictures = (photoData) => {
   const fragment = document.createDocumentFragment();
   photoData.forEach((photo) => {
     const pictureElement = pictureTemplate.cloneNode(true);
-    const img = picture.querySelector('.picture__img');
-    const likes = picture.querySelector('.picture__likes');
-    const comments = picture.querySelector('.picture__comments');
+    const img = pictureElement.querySelector('.picture__img');
+    const likes = pictureElement.querySelector('.picture__likes');
+    const comments = pictureElement.querySelector('.picture__comments');
 
     img.src = photo.url;
     img.alt = photo.description;
