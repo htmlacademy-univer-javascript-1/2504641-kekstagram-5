@@ -1,4 +1,4 @@
-import {photos} from './data.js'
+import {photos} from './data.js';
 const pictures = document.querySelector('.pictures');
 const template = document.querySelector('#picture').textContent;
 const picture = template.querySelector('.picture');
@@ -14,4 +14,4 @@ readyPics.forEach(({url,description,likes,comments}) => {
   fragment.appendChild(pictureClone);
 });
 
-pictures.appendChild(fragment)
+pictures.appendChild(fragment);
