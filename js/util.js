@@ -30,4 +30,6 @@ function createRandomIdFromRangeGenerator (min, max) {
     return currentValue;
   };
 }
+export const removeLastCharacter = (string) => string ? string.slice(0, -1) : string;
+
 export{getRandomInteger,getRandomArrayElement,generateId,createRandomIdFromRangeGenerator};
