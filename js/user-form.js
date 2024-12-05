@@ -79,3 +79,5 @@ pristine.addValidator(
 
 form.querySelector('.img-upload__input').addEventListener('change', onFileInputChange);
 form.querySelector('.img-upload__cancel').addEventListener('click', onCancelButtonClick);
+
+export {pristine};
