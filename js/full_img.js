@@ -1,4 +1,3 @@
-import { isEscapeKey } from "./util";
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
 const likesCount = bigPicture.querySelector('.likes-count');
@@ -45,7 +44,7 @@ closeButton.addEventListener('click', closeBigPicture);
 
 // Событие на Escape
 document.addEventListener('keydown', (event) => {
-  if (isEscapeKey) {
+  if (event.key === 'Escape') {
     closeBigPicture();
   }
 });

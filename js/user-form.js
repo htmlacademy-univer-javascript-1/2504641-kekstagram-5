@@ -18,13 +18,13 @@ const pristine = new Pristine(form, {
   errorTextParent: 'img-upload__field-wrapper',
 });
 
-const showModal = () =>  {
+const showModal = () => {
   overlay.classList.remove('hidden');
   browserSync.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-const hideModal = () =>  {
+const hideModal = () => {
   form.reset();
   pristine.reset();
   overlay.classList.add('hidden');
@@ -37,17 +37,16 @@ const isTextFieldFocused = () => document.activeElement === hashtagField || docu
 
 const hasValidCount = (value) => normalizeTags(value).length <=
 MAX_HASHTAG_COUNT;
-const hasValidTags = (value) => normalizeTags(value).every((tag) =>
-VALID_SYMBOLS.test(tag));
+const hasValidTags = (value) => normalizeTags(value).every((tag) =>  VALID_SYMBOLS.test(tag));
 const hasUniqueTags = (value) => {
   const lowerCaseTags = normalizeTags(value).map((tag) => tag. toLowerCase());
-  return lowerCaseTags.length == new Set(lowerCaseTags).size;
+  return lowerCaseTags.length === new Set(lowerCaseTags).size;
 };
 
 function onDocumentKeydown(evt) {
   if (isEscapeKey && !isTextFieldFocused()) {
-  evt.preventDefault();
-  hideModal();
+    evt.preventDefault();
+    hideModal();
   }
 }
 
