@@ -63,7 +63,7 @@ function updateComments() {
 
   // Обновляем счётчик комментариев
   commentCountBlock.textContent = `${displayedCommentsCount} ${endWordComment(displayedCommentsCount)} из ${commentsCount.textContent}`;
-};
+}
 
 // Функция закрытия полноразмерного изображения
 const closeBigPicture = () => {
