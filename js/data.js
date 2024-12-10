@@ -43,21 +43,20 @@ const DESCRIPTIONS = [
 ];
 
 const createComment = () => ({
-  id: generateId,
+  id: generateId(),
   avatar: `img/avatar-${getRandomInteger(1,6)}.svg`,
   message: getRandomArrayElement(MESSAGES),
   name: getRandomArrayElement(NAMES),
 });
 
-const comments = Array.from({length: getRandomInteger(0,30)}, createComment);
-
 const createPhoto = function() {
+  const comments = Array.from({length: getRandomInteger(0,30)}, createComment);
   const idGenerator = createRandomIdFromRangeGenerator(1,25);
   const urlGenerator = createRandomIdFromRangeGenerator(1,25);
   return{
     id: idGenerator(),
     url: `photos/${urlGenerator()}.jpg`,
-    desription: getRandomArrayElement(DESCRIPTIONS),
+    description: getRandomArrayElement(DESCRIPTIONS),
     likes: getRandomInteger(15,200),
     comments: comments
   };
