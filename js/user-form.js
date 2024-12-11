@@ -32,7 +32,7 @@ const hideModal = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-const normalizeTags = (tagSrting) => tagSrting.trim().split('').filter((tag) => Boolean(tag.length));
+const normalizeTags = (tagSrting) => tagSrting.trim().split(' ').filter((tag) => Boolean(tag.length));
 const isTextFieldFocused = () => document.activeElement === hashtagField || document.activeElement === form.querySelector('.text__description');
 
 const hasValidCount = (value) => normalizeTags(value).length <=

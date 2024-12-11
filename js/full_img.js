@@ -25,12 +25,15 @@ const renderFullPhoto = ({url, likes, comments, description}) => {
   commentsCount.textContent = comments.length;
   socialCaption.textContent = description;
 
+
   // Очистка предыдущих комментариев
   socialCommentsList.innerHTML = '';
   commentsToShow = comments.slice(0, 5); // Начинаем с первых 5 комментариев
   displayedCommentsCount = 5; // Показываем 5 комментариев
   updateComments();
-
+  if (displayedCommentsCount >= comments.length) {
+    commentsLoader.classList.add('hidden');
+  }
   // Отображаем блоки счётчика комментариев и загрузки новых комментариев
   commentCountBlock.classList.remove('hidden');
   commentsLoader.classList.remove('hidden');

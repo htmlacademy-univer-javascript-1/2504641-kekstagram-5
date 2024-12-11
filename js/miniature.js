@@ -24,6 +24,6 @@ const renderPictures = (photoData) => {
   picturesContainer.appendChild(fragment);
 };
 
-const generatedPhotos = photos();
+const generatedPhotos = photos;
 renderPictures(generatedPhotos);
 
