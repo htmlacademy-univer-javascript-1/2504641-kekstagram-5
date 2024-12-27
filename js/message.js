@@ -1,13 +1,13 @@
 import {isEscapeKey} from './util.js';
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
+export const getMessageElement = () => document.querySelector('.success, .error');
 const onEscKeydown = (evt) => {
   if (isEscapeKey(evt) && getMessageElement()) {
     evt.preventDefault();
     closeMessage();
   }
 };
-export const getMessageElement = () => document.querySelector('.success, .error');
 
 const onOutsideClick = (evt) => {
   const messageElement = getMessageElement();
