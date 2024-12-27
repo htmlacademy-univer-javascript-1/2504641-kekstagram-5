@@ -1,17 +1,22 @@
-import {photos} from './data.js';
-const pictures = document.querySelector('.pictures');
-const template = document.querySelector('#picture').textContent;
-const picture = template.querySelector('.picture');
-const readyPics = photos(25);
-const fragment = document.createDocumentFragment();
+import { initializeBigItemDialog, showBigItemDialog } from './form-big-item.js';
 
-readyPics.forEach(({url,description,likes,comments}) => {
-  const pictureClone = picture.cloneNode(true);
-  pictureClone.querySelector('img').src = url;
-  pictureClone.querySelector('img').alt = description;
-  pictureClone.querySelector('.picture__likes').textContent = likes;
-  pictureClone.querySelector('.picture__comments').textContent = comments.length;
-  fragment.appendChild(pictureClone);
-});
+const picturesContainer = document.querySelector('.pictures');
 
-pictures.appendChild(fragment);
+export const initGallery = (items) => {
+  initializeBigItemDialog();
+
+  const onPictureClick = (evt) => {
+    const picture = evt.target.closest('.picture');
+
+    if (picture) {
+      const thumbnailId = Number(picture.querySelector('.picture__img').dataset.thumbnailId);
+      const selectedPicture = items.find((item) => item.id === thumbnailId);
+
+      if (selectedPicture) {
+        showBigItemDialog(selectedPicture); // Передаем объект фотографии
+      }
+    }
+  };
+
+  picturesContainer.addEventListener('click', onPictureClick);
+};
