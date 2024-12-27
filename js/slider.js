@@ -49,89 +49,100 @@ const EFFECTS = [
   }
 ];
 const imagePreview = document.querySelector('.img-upload__preview img');
-const sliderElement = document.querySelector('.effect-level__slider');
-const sliderContainerElement = document.querySelector('.img-upload__effect-level');
-const valueElement = document.querySelector('.effect-level__value');
-const fieldsetElement = document.querySelector('.img-upload__effects');
+const slider = document.querySelector('.effect-level__slider');
+const sliderContainer = document.querySelector('.img-upload__effect-level');
+const value = document.querySelector('.effect-level__value');
+const fieldset = document.querySelector('.img-upload__effects');
+const effectRadio = document.querySelector('.effects__radio');
 const defaultEffect = EFFECTS.find((effect) => effect.name === 'none');
+
 const showSlider = () => {
-  sliderContainerElement.classList.remove('hidden');
+  sliderContainer.classList.remove('hidden');
 };
 const hideSlider = () => {
-  sliderContainerElement.classList.add('hidden');
+  sliderContainer.classList.add('hidden');
 };
-const setSlider = (name, choice) => {
-  imagePreview.className = `effects__preview--${name}`;
-  sliderElement.noUiSlider.updateOptions({
+
+const setSlider = (nameEffect, chosenEffect) => {
+  imagePreview.className = `effects__preview--${nameEffect}`;
+  slider.noUiSlider.updateOptions({
     range: {
-      min: choice.min,
-      max: choice.max
+      min: chosenEffect.min,
+      max: chosenEffect.max
     },
-    start: choice.max,
-    step: choice.step
+    start: chosenEffect.max,
+    step: chosenEffect.step
   });
-  sliderElement.noUiSlider.on('update', () => {
-    valueElement.value = sliderElement.noUiSlider.get();
-    imagePreview.style.filter = `${choice.style}(${valueElement.value}${choice.unit})`;
+  slider.noUiSlider.on('update', () => {
+    value.value = slider.noUiSlider.get();
+    imagePreview.style.filter = `${chosenEffect.style}(${value.value}${chosenEffect.unit})`;
   });
 };
+
 export const resetSlider = () => {
-  sliderElement.noUiSlider.set(defaultEffect.max);
+  slider.noUiSlider.set(defaultEffect.max);
   imagePreview.style.filter = '';
-  imagePreview.classList.add('effects__preview--none');
-  valueElement.value = 100;
+  imagePreview.className = 'effects__preview--none';
+  value.value = defaultEffect.max;
+  effectRadio.checked = true;
 };
-noUiSlider.create(sliderElement, {
-  range: {
-    min: defaultEffect.min,
-    max: defaultEffect.max,
-  },
-  start: defaultEffect.max,
-  step: defaultEffect.step,
-  connect: 'lower',
-  format: {
-    to: function (value) {
-      if (Number.isInteger(value)) {
-        return value.toFixed(0);
-      }
-      return value.toFixed(1);
+
+export const destroySlider = () => {
+  slider.noUiSlider.destroy();
+};
+
+export const initSlider = () => {
+  noUiSlider.create(slider, {
+    range: {
+      min: defaultEffect.min,
+      max: defaultEffect.max,
     },
-    from: function (value) {
-      return parseFloat(value);
+    start: defaultEffect.max,
+    step: defaultEffect.step,
+    connect: 'lower',
+    format: {
+      to: function (value) {
+        if (Number.isInteger(value)) {
+          return value.toFixed(0);
+        }
+        return value.toFixed(1);
+      },
+      from: function (value) {
+        return parseFloat(value);
+      },
     },
-  },
-});
-hideSlider();
-resetSlider();
-fieldsetElement.addEventListener('change', (evt) => {
-  const nameEffect = evt.target.value;
-  const chosenEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
-  switch (nameEffect) {
-    case 'none':
-      hideSlider();
-      setSlider(nameEffect, chosenEffect);
-      imagePreview.style.filter = '';
-      break;
-    case 'chrome':
-      showSlider();
-      setSlider(nameEffect, chosenEffect);
-      break;
-    case 'sepia':
-      showSlider();
-      setSlider(nameEffect, chosenEffect);
-      break;
-    case 'marvin':
-      showSlider();
-      setSlider(nameEffect, chosenEffect);
-      break;
-    case 'phobos':
-      showSlider();
-      setSlider(nameEffect, chosenEffect);
-      break;
-    case 'heat':
-      showSlider();
-      setSlider(nameEffect, chosenEffect);
-      break;
-    default:
-  }
-});
+  });
+  hideSlider();
+  resetSlider();
+  fieldset.addEventListener('change', (evt) => {
+    const nameEffect = evt.target.value;
+    const chosenEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
+    switch (nameEffect) {
+      case 'none':
+        hideSlider();
+        setSlider(nameEffect, chosenEffect);
+        imagePreview.style.filter = '';
+        break;
+      case 'chrome':
+        showSlider();
+        setSlider(nameEffect, chosenEffect);
+        break;
+      case 'sepia':
+        showSlider();
+        setSlider(nameEffect, chosenEffect);
+        break;
+      case 'marvin':
+        showSlider();
+        setSlider(nameEffect, chosenEffect);
+        break;
+      case 'phobos':
+        showSlider();
+        setSlider(nameEffect, chosenEffect);
+        break;
+      case 'heat':
+        showSlider();
+        setSlider(nameEffect, chosenEffect);
+        break;
+    }
+  });
+};

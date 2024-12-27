@@ -1,29 +1,43 @@
-import { photos } from './data.js';
-import { renderFullPhoto } from './draw_fullImg.js';
+import { filterRandom, sortByMostDiscussed } from './filter.js';
 
 const picturesContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const renderPictures = (photoData) => {
+const filterSection = document.querySelector('.img-filters');
+
+export const renderSmallItems = (items) => {
+  let filteredItems = [...items]; // Используем spread-оператор для создания копии массива
+  const activeFilterButtonId = filterSection.querySelector('.img-filters__button--active').id;
+  const existingItems = picturesContainer.querySelectorAll('.picture');
+
+  if (activeFilterButtonId === 'filter-random') {
+    filteredItems = filterRandom(filteredItems);
+  } else if (activeFilterButtonId === 'filter-discussed') {
+    filteredItems = sortByMostDiscussed(filteredItems);
+  }
+
+  existingItems.forEach((item) => item.remove());
+
   const fragment = document.createDocumentFragment();
-  photoData.forEach((photo) => {
-    const pictureElement = pictureTemplate.cloneNode(true);
-    const img = pictureElement.querySelector('.picture__img');
-    const likes = pictureElement.querySelector('.picture__likes');
-    const comments = pictureElement.querySelector('.picture__comments');
-
-    img.src = photo.url;
-    img.alt = photo.description;
-    likes.textContent = photo.likes;
-    comments.textContent = photo.comments.length;
-
-    pictureElement.querySelector('.picture').addEventListener('click',() => {
-      renderFullPhoto(photo);
-    });
-    fragment.appendChild(pictureElement);
+  filteredItems.forEach((item) => {
+    const itemElement = createSmallItem(item);
+    fragment.append(itemElement);
   });
-  picturesContainer.appendChild(fragment);
+
+  picturesContainer.append(fragment);
 };
 
-const generatedPhotos = photos;
-renderPictures(generatedPhotos);
+const createSmallItem = ({ id, url, description, likes, comments }) => {
+  const pictureElement = pictureTemplate.cloneNode(true);
+  const pictureImg = pictureElement.querySelector('.picture__img');
+  pictureImg.src = url;
+  pictureImg.alt = description;
+  pictureImg.dataset.thumbnailId = id;
 
+  const commentsElement = pictureElement.querySelector('.picture__comments');
+  commentsElement.textContent = comments.length;
+
+  const likesElement = pictureElement.querySelector('.picture__likes');
+  likesElement.textContent = likes;
+
+  return pictureElement;
+};
