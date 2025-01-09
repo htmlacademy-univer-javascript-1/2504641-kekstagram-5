@@ -10,8 +10,8 @@ const onEscKeydown = (evt) => {
 };
 
 const onOutsideClick = (evt) => {
-  const messageElement = getMessageElement();
-  if (evt.target === messageElement) {
+  const message = getMessageElement();
+  if (evt.target === message) {
     closeMessage();
   }
 };
@@ -19,9 +19,9 @@ function closeMessage () {
   document.removeEventListener('keydown', onEscKeydown);
   document.removeEventListener('click', onOutsideClick);
 
-  const messageElement = getMessageElement();
-  if (messageElement) {
-    messageElement.remove();
+  const message = getMessageElement();
+  if (message) {
+    message.remove();
   }
 }
 export const openMessageBox = (typeMessage) => {

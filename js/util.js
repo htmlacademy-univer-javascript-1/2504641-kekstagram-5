@@ -25,13 +25,13 @@ export const checkRepeats = (array) => {
 };
 
 export const showAlert = (message) => {
-  const alertContainerElement = document.createElement('div');
-  Object.assign(alertContainerElement.style, alertStyles);
-  alertContainerElement.textContent = message;
-  document.body.append(alertContainerElement);
+  const alertContainer = document.createElement('div');
+  Object.assign(alertContainer.style, alertStyles);
+  alertContainer.textContent = message;
+  document.body.append(alertContainer);
 
   setTimeout(() => {
-    alertContainerElement.remove();
+    alertContainer.remove();
   }, ALERT_SHOW_TIME);
 };
 

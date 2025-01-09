@@ -51,7 +51,7 @@ const EFFECTS = [
 const imagePreview = document.querySelector('.img-upload__preview img');
 const slider = document.querySelector('.effect-level__slider');
 const sliderContainer = document.querySelector('.img-upload__effect-level');
-const valueElement = document.querySelector('.effect-level__value');
+const valueEl = document.querySelector('.effect-level__value');
 const fieldset = document.querySelector('.img-upload__effects');
 const effectRadio = document.querySelector('.effects__radio');
 const defaultEffect = EFFECTS.find((effect) => effect.name === 'none');
@@ -74,8 +74,8 @@ const setSlider = (nameEffect, chosenEffect) => {
     step: chosenEffect.step
   });
   slider.noUiSlider.on('update', () => {
-    valueElement.value = slider.noUiSlider.get();
-    imagePreview.style.filter = `${chosenEffect.style}(${valueElement.value}${chosenEffect.unit})`;
+    valueEl.value = slider.noUiSlider.get();
+    imagePreview.style.filter = `${chosenEffect.style}(${valueEl.value}${chosenEffect.unit})`;
   });
 };
 
@@ -83,7 +83,7 @@ export const resetSlider = () => {
   slider.noUiSlider.set(defaultEffect.max);
   imagePreview.style.filter = '';
   imagePreview.className = 'effects__preview--none';
-  valueElement.value = defaultEffect.max;
+  valueEl.value = defaultEffect.max;
   effectRadio.checked = true;
 };
 

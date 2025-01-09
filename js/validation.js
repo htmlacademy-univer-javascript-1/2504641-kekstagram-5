@@ -4,7 +4,7 @@ const COMMENT_MAX_LENGTH = 140;
 const HASHTAG_MAX_LENGTH = 19;
 const HASHTAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
 const HASHTAG_MAX_QUANTITY = 5;
-const MESSAGES = {
+const messages = {
   hasHash: `Правило: первый символ # далее буквы и числа, но не более ${HASHTAG_MAX_LENGTH} шт.`,
   maxQuantity: `Максимально может быть ${HASHTAG_MAX_QUANTITY} хэштегов`,
   noRepetitions: 'Хэштеги не могут повторяться',
@@ -32,10 +32,10 @@ const onCheckNoRepetitions = () => checkRepeats(hashtagInput.value.split(' ').fi
 const onCheckMaxLengthComment = () => checkLength(commentInput.value, COMMENT_MAX_LENGTH);
 
 export const initValidation = () => {
-  validator.addValidator(hashtagInput, onCheckHasHash, MESSAGES.hasHash);
-  validator.addValidator(hashtagInput, onCheckMaxQuantity, MESSAGES.maxQuantity);
-  validator.addValidator(hashtagInput, onCheckNoRepetitions, MESSAGES.noRepetitions);
-  validator.addValidator(commentInput, onCheckMaxLengthComment, MESSAGES.maxLengthComment);
+  validator.addValidator(hashtagInput, onCheckHasHash, messages.hasHash);
+  validator.addValidator(hashtagInput, onCheckMaxQuantity, messages.maxQuantity);
+  validator.addValidator(hashtagInput, onCheckNoRepetitions, messages.noRepetitions);
+  validator.addValidator(commentInput, onCheckMaxLengthComment, messages.maxLengthComment);
 };
 
 export const validateValues = () => validator.validate();

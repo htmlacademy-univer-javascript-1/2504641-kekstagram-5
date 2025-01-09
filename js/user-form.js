@@ -3,7 +3,7 @@ import {isEnterKey, isEscapeKey} from './util.js';
 import {initScale, resetScale} from './scale.js';
 import {destroySlider, initSlider, resetSlider} from './slider.js';
 import {openMessageBox, getMessageElement} from './message.js';
-import {sendData} from './api.js';
+import {unloadData} from './api.js';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const SUCCESS_TYPE_MESSAGE = 'success';
@@ -119,7 +119,7 @@ export const initFormUpload = (onStartValidator, onSuccessUpload) => {
       onSuccessUpload();
       openMessageBox(SUCCESS_TYPE_MESSAGE);
       unblockSubmitButton();
-      sendData(new FormData(evt.target))
+      unloadData(new FormData(evt.target))
         .then(onSuccessUpload)
         .then(() => openMessageBox(SUCCESS_TYPE_MESSAGE))
         .catch(

@@ -4,19 +4,19 @@ const picturesContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const filterSection = document.querySelector('.img-filters');
 const createSmallItem = ({ id, url, description, likes, comments }) => {
-  const pictureElement = pictureTemplate.cloneNode(true);
-  const pictureImg = pictureElement.querySelector('.picture__img');
+  const picture = pictureTemplate.cloneNode(true);
+  const pictureImg = picture.querySelector('.picture__img');
   pictureImg.src = url;
   pictureImg.alt = description;
   pictureImg.dataset.thumbnailId = id;
 
-  const commentsElement = pictureElement.querySelector('.picture__comments');
-  commentsElement.textContent = comments.length;
+  const commentsEl = picture.querySelector('.picture__comments');
+  commentsEl.textContent = comments.length;
 
-  const likesElement = pictureElement.querySelector('.picture__likes');
-  likesElement.textContent = likes;
+  const likesEl = picture.querySelector('.picture__likes');
+  likesEl.textContent = likes;
 
-  return pictureElement;
+  return picture;
 };
 export const renderSmallItems = (items) => {
   let filteredItems = [...items]; // Используем spread-оператор для создания копии массива
@@ -33,8 +33,8 @@ export const renderSmallItems = (items) => {
 
   const fragment = document.createDocumentFragment();
   filteredItems.forEach((item) => {
-    const itemElement = createSmallItem(item);
-    fragment.append(itemElement);
+    const itemEl = createSmallItem(item);
+    fragment.append(itemEl);
   });
 
   picturesContainer.append(fragment);

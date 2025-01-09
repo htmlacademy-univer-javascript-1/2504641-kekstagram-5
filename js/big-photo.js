@@ -1,121 +1,80 @@
-const COMMENT_COUNT = 5;
+const COMMENTS_STEP = 5;
 const AVATAR_SIZE = 35;
 
-// DOM-элементы для работы с комментариями
-const commentListElement = document.querySelector('.social__comments');
-const counterRenderedCommentsElement = document.querySelector('.comments-current');
+const bigPicture = document.querySelector('.big-picture');
+const bigImage = bigPicture.querySelector('.big-picture__img img');
+const likesCount = bigPicture.querySelector('.likes-count');
+const commentsCount = bigPicture.querySelector('.comments-count');
+const commentList = bigPicture.querySelector('.social__comments');
+const socialCaption = bigPicture.querySelector('.social__caption');
+const commentCountBlock = bigPicture.querySelector('.social__comment-count');
+const commentsLoader = bigPicture.querySelector('.comments-loader');
 
-// Создание элемента комментария
-const createCommentElement = ({ avatar, name, message }) => {
-  const commentElement = document.createElement('li');
-  commentElement.classList.add('social__comment');
+let commentsToShow = [];
+let displayedCommentsCount = 0;
 
-  const avatarElement = document.createElement('img');
-  avatarElement.classList.add('social__picture');
-  avatarElement.src = avatar;
-  avatarElement.alt = name;
-  avatarElement.width = AVATAR_SIZE;
-  avatarElement.height = AVATAR_SIZE;
+const createCommentElement = (comment) => {
+  const commentLi = document.createElement('li');
+  commentLi.classList.add('social__comment');
 
-  const messageElement = document.createElement('p');
-  messageElement.classList.add('social__text');
-  messageElement.textContent = message;
+  const commentImage = document.createElement('img');
+  commentImage.classList.add('social__picture');
+  commentImage.src = comment.avatar;
+  commentImage.alt = comment.name;
+  commentImage.width = AVATAR_SIZE;
+  commentImage.height = AVATAR_SIZE;
 
-  commentElement.append(avatarElement, messageElement);
+  const commentParagraph = document.createElement('p');
+  commentParagraph.classList.add('social__text');
+  commentParagraph.textContent = comment.message;
 
-  return commentElement;
+  commentLi.append(commentImage, commentParagraph);
+
+  return commentLi;
 };
 
-// Добавление комментария в список
-const appendComment = (comment) => {
-  commentListElement.append(createCommentElement(comment));
-};
+const onCommentsRender = () => {
+  const fragment = document.createDocumentFragment();
+  const nextComments = commentsToShow.slice(displayedCommentsCount, displayedCommentsCount + COMMENTS_STEP);
 
-// Обновление счётчика отображённых комментариев
-const updateRenderedCommentsCount = (currentCount, totalCount) => Math.min(currentCount, totalCount);
+  nextComments.forEach((comment) => {
+    const commentEl = createCommentElement(comment);
+    fragment.appendChild(commentEl);
+  });
 
-// Создание кнопки "Загрузить ещё"
-const createLoadMoreButton = () => {
-  let button = document.querySelector('.comments-loader');
-  if (!button) {
-    button = document.createElement('button');
-    button.type = 'button';
-    button.classList.add('social__comments-loader', 'comments-loader');
-    button.textContent = 'Загрузить еще';
-    commentListElement.after(button);
-  }
-  button.classList.remove('hidden');
-  return button;
-};
+  commentList.appendChild(fragment);
+  displayedCommentsCount += nextComments.length;
 
-// Управление видимостью кнопки "Загрузить ещё"
-const toggleLoadMoreButtonVisibility = (isVisible) => {
-  const loadMoreButton = document.querySelector('.comments-loader');
-  if (loadMoreButton) {
-    loadMoreButton.classList.toggle('hidden', !isVisible);
-  }
-};
+  commentCountBlock.textContent = `${displayedCommentsCount} из ${commentsToShow.length} комментариев`;
 
-// Обработчик клика по кнопке "Загрузить ещё"
-const handleLoadMoreClick = (comments) => (event) => {
-  event.preventDefault();
-
-  const renderedCount = commentListElement.childElementCount;
-  const nextComments = comments.slice(renderedCount, renderedCount + COMMENT_COUNT);
-
-  nextComments.forEach(appendComment);
-
-  const newRenderedCount = renderedCount + nextComments.length;
-  counterRenderedCommentsElement.textContent = updateRenderedCommentsCount(newRenderedCount, comments.length);
-
-  if (newRenderedCount >= comments.length) {
-    toggleLoadMoreButtonVisibility(false);
-  }
-};
-
-// Отображение всех комментариев
-const renderAllComments = (comments) => {
-  comments.forEach(appendComment);
-  toggleLoadMoreButtonVisibility(false);
-  counterRenderedCommentsElement.textContent = comments.length;
-};
-
-// Постраничное отображение комментариев
-const renderPagedComments = (comments) => {
-  const initialComments = comments.slice(0, COMMENT_COUNT);
-  initialComments.forEach(appendComment);
-
-  counterRenderedCommentsElement.textContent = updateRenderedCommentsCount(commentListElement.childElementCount, comments.length);
-
-  const loadMoreButton = createLoadMoreButton();
-  loadMoreButton.removeEventListener('click', handleLoadMoreClick(comments));
-  loadMoreButton.addEventListener('click', handleLoadMoreClick(comments));
-
-  toggleLoadMoreButtonVisibility(comments.length > COMMENT_COUNT);
-};
-
-// Основной метод для отображения комментариев
-const renderComments = (comments) => {
-  commentListElement.innerHTML = '';
-
-  if (comments.length <= COMMENT_COUNT) {
-    renderAllComments(comments);
+  if (displayedCommentsCount >= commentsToShow.length) {
+    commentsLoader.classList.add('hidden');
   } else {
-    renderPagedComments(comments);
+    commentsLoader.classList.remove('hidden');
   }
 };
 
-// Экспортируемая функция для отображения деталей элемента
-export const renderItemDetails = (item, outputContainer) => {
-  const { comments, description, likes, url } = item;
+const initializeComments = (comments) => {
+  commentList.innerHTML = '';
+  commentsToShow = comments || [];
+  displayedCommentsCount = 0;
 
-  const bigImage = outputContainer.querySelector('.big-picture__img img');
-  bigImage.src = url;
-  bigImage.alt = description;
-
-  outputContainer.querySelector('.social__caption').textContent = description;
-  outputContainer.querySelector('.likes-count').textContent = likes;
-  outputContainer.querySelector('.comments-count').textContent = comments.length;
-
-  renderComments(comments);
+  if (commentsToShow.length === 0) {
+    commentCountBlock.textContent = '0 из 0 комментариев';
+    commentsLoader.classList.add('hidden');
+  } else {
+    onCommentsRender();
+  }
 };
+
+export const renderItemDetails = (item) => {
+  bigImage.src = item.url;
+  bigImage.alt = item.description;
+  likesCount.textContent = item.likes;
+  commentsCount.textContent = item.comments.length;
+  socialCaption.textContent = item.description;
+
+  initializeComments(item.comments);
+};
+
+commentsLoader.addEventListener('click', onCommentsRender);
